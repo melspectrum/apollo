@@ -2,7 +2,6 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
-
 (whole-line-or-region-global-mode 1)
 (global-set-key (kbd "<select>") 'move-end-of-line)
 
@@ -11,8 +10,7 @@
   (add-to-list 'major-mode-remap-alist '(c-mode . nil))
   (add-to-list 'major-mode-remap-alist '(c++-mode . nil))
   (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . nil)))
-;;(setq initial-buffer-choice nil) ;; Prevents *doom* buffer from loading too early
-;;(load-theme 'zenburn t)
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 ;; (setq user-full-name "John Doe"
@@ -42,7 +40,6 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
-;;(setq doom-theme 'doom-zenburn)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -53,7 +50,9 @@
 (setq org-directory "~/org/")
 
 (setq flycheck-checker-error-threshold nil)
+
 (add-hook! 'json-mode-hook (setq-local +word-wrap-extra-indent 'single) (+word-wrap-mode +1))
+
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 (setq-default
