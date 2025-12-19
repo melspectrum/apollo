@@ -67,6 +67,7 @@
 )
 
 (setq show-paren-context-when-offscreen 'echo)
+(setq magit-bury-buffer-function 'kill-buffer)
 
 ;; (after! treesit
 ;;   (setq treesit-language-source-alist
