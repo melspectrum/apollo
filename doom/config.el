@@ -2,6 +2,7 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
+
 (whole-line-or-region-global-mode 1)
 (global-set-key (kbd "<select>") 'move-end-of-line)
 
@@ -10,7 +11,8 @@
 ;;   (add-to-list 'major-mode-remap-alist '(c-mode . nil))
 ;;   (add-to-list 'major-mode-remap-alist '(c++-mode . nil))
 ;;   (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . nil)))
-
+;;(setq initial-buffer-choice nil) ;; Prevents *doom* buffer from loading too early
+;;(load-theme 'zenburn t)
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 ;; (setq user-full-name "John Doe"
@@ -40,6 +42,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-zenburn)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -50,24 +53,18 @@
 (setq org-directory "~/org/")
 
 (setq flycheck-checker-error-threshold nil)
-
 (add-hook! 'json-mode-hook (setq-local +word-wrap-extra-indent 'single) (+word-wrap-mode +1))
-(add-hook 'c-mode-common-hook #'visual-line-mode)
 
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-(after! cc-mode
-  (setq indent-tabs-mode nil)
-  (setq c-tab-always-indent nil)
-  (setq c-basic-offset 2)
-  (c-set-offset 'inclass 2)
-  (c-set-offset 'topmost-intro 0)
-  (c-set-offset 'innamespace 0)
-  (c-set-offset 'access-label '/)
+(setq-default
+  c-basic-offset 2       ; Set the standard offset for C/C++ modes
+  tab-width 2            ; Set the width of a tab character to 4 columns
+  indent-tabs-mode nil   ; Use spaces for indentation instead of actual tab characters
 )
 
-(setq show-paren-context-when-offscreen 'echo)
-(setq magit-bury-buffer-function 'kill-buffer)
+;; Optional: Customize TAB key behavior in C/C++ modes
+(add-hook 'c-mode-common-hook (lambda ()
+  (setq c-tab-always-indent nil) ; TAB indents only if point is at the beginning of the line, otherwise inserts spaces
+))
 
 ;; (after! treesit
 ;;   (setq treesit-language-source-alist
@@ -77,17 +74,27 @@
 ;;   ;; M-x treesit-install-language-grammar
 ;;   )
 
-;; (add-to-list 'auto-mode-alist '("\\.\\(cpp\\|cxx\\|cc\\|C\\)\\'" . c++-ts-mode))
-;; (add-to-list 'auto-mode-alist '("\\.\\(hpp\\|hxx\\|hh\\|H\\)\\'" . c++-ts-mode))
-;; (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(cpp\\|cxx\\|cc\\|C\\)\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(hpp\\|hxx\\|hh\\|H\\)\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-ts-mode))
 
-;; (defun set-c++-ts-indentation ()
-;;   "Indentation for C++ tree-sitter mode."
-;;   (setq c-ts-mode-indent-offset 2 ; Sets the indentation level
-;;         tab-width 2                 ; Sets how many columns a tab character displays as
-;;         indent-tabs-mode nil))      ; Use spaces for indentation
+(defun set-c++-ts-indentation ()
+  "Indentation for C++ tree-sitter mode."
+  (setq c-ts-mode-indent-offset 2 ; Sets the indentation level
+        tab-width 2                 ; Sets how many columns a tab character displays as
+        indent-tabs-mode nil))      ; Use spaces for indentation
 
-;; (add-hook 'c++-ts-mode-hook #'set-c++-ts-indentation)
+(add-hook 'c++-ts-mode-hook #'set-c++-ts-indentation)
+(add-hook! '(c-ts-mode-hook c++-ts-mode-hook) #'lsp!)
+
+(after! lsp-mode
+  (setq lsp-enable-on-type-formatting nil))
+(setq-hook! 'c++-ts-mode-hook eglot-ignored-server-capabilities '(:documentOnTypeFormattingProvider))
+;; (add-hook! 'c++-ts-mode-hook
+;;   (electric-indent-local-mode -1))
+
+
+(global-auto-revert-mode +1)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
