@@ -150,9 +150,9 @@
   (marginalia-mode))
 
 (use-package which-key
-  :ensure t
+  :ensure nil
   :config
-  (which-key-mode))
+  (which-key-mode 1))
 
 (add-to-list 'display-buffer-alist
              '("\\*rg\\*" . (nil . ((body-function . select-window)))))
