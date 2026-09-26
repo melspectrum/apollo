@@ -1,11 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setopt custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (require 'package)
-(setq package-archives '(("gnu"    . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("melpa"  . "https://melpa.org/packages/")))
+(setopt package-archives '(("gnu"    . "https://elpa.gnu.org/packages/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                           ("melpa"  . "https://melpa.org/packages/")))
 
 ;; (setopt package-retention-policy t)
 
@@ -16,6 +16,6 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 
-(setq inhibit-startup-screen t)
-(setq initial-scratch-message nil)
-(setq inhibit-startup-echo-area-message (user-login-name))
+(setopt inhibit-startup-screen t)
+(setopt initial-scratch-message nil)
+(setopt inhibit-startup-echo-area-message (user-login-name))

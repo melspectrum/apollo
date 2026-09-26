@@ -31,18 +31,13 @@
   :init
   (doom-modeline-mode 1))
 
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-mode)
-  :hook ((c-ts-mode . lsp-mode)
-         (c++-ts-mode . lsp-mode)
-         (python-mode . lsp-mode))
-  :init
-  (setopt lsp-keymap-prefix "C-c l")
+(use-package eglot
+  :ensure nil
+  :hook ((c-ts-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure))
   :config
-  (lsp-enable-which-key-integration)
-  (setopt lsp-enable-diagnostics nil)
-  (setopt lsp-auto-guess-root t))
+  (setopt eglot-documentation-renderer #'markdown-ts-view-mode))
 
 (use-package whole-line-or-region
   :ensure t
@@ -165,7 +160,7 @@
 (save-place-mode 1)
 (global-set-key (kbd "<select>") #'move-end-of-line)
 (show-paren-mode t)
-(setq make-backup-files nil)
+(setopt make-backup-files nil)
 (setq-default c-basic-offset 2)
 
 (setopt treesit-enabled-modes t)
@@ -183,7 +178,7 @@
 (global-whitespace-mode 1)
 
 (setopt column-number-mode t)
-(setq-default indent-tabs-mode nil)
+(setopt indent-tabs-mode nil)
 (setopt resize-mini-windows t)
 (setopt max-mini-window-height 0.4)
 (blink-cursor-mode 0)
